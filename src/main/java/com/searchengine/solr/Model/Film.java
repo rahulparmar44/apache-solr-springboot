@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SolrDocument(collection = "film")
+@SolrDocument(collection = "filmJson")
 public class Film {
     @Id
     @Field

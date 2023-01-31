@@ -15,14 +15,9 @@ public class SolrConfig {
 
     @Bean
     public CloudSolrClient solrClient() {
-        //return new CloudSolrClient().Builder("http://localhost:9983/").build();
         final List<String> zkServers = new ArrayList<>();
         zkServers.add("localhost:9983");
         return new CloudSolrClient.Builder(zkServers, Optional.empty()).build();
     }
 
-    @Bean
-    public SolrTemplate solrTemplate(SolrClient client) throws Exception {
-        return new SolrTemplate(client);
-    }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/films")
 public class SolrController {
-
     @Autowired
     SolrService solrService;
 

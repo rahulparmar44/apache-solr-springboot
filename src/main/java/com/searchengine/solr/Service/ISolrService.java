@@ -12,4 +12,5 @@ public interface ISolrService {
     Film saveFilm(Film film);
 
     List<Film> getFilmsByIdOrName(String name);
+
 }
