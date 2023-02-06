@@ -16,7 +16,7 @@ public class SolrConfig {
     @Bean
     public CloudSolrClient solrClient() {
         final List<String> zkServers = new ArrayList<>();
-        zkServers.add("localhost:9983");
+        zkServers.add("localhost:9984");
         return new CloudSolrClient.Builder(zkServers, Optional.empty()).build();
     }
 

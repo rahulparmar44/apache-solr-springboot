@@ -1,7 +1,9 @@
 package com.searchengine.solr.Repository;
 
 
+import com.searchengine.solr.Model.Certification.Root;
 import com.searchengine.solr.Model.Film;
+import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.repository.Query;
 import org.springframework.data.solr.repository.SolrCrudRepository;
@@ -18,4 +20,7 @@ public interface FilmRepository extends SolrCrudRepository<Film, String> {
     @Query("id:*?0* OR name:*?0* OR directed_by:*?0*")
     public List<Film> findByCustomQuery(String searchTerm, Pageable pageable);
 
+
 }
+
+
