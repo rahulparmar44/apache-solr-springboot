@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:2023/javatest
+    url: jdbc:postgresql://localhost:2023/hashedindna
     username: postgres
-    password: password
+    password: Password
   jpa:
     hibernate:
       ddl-auto: update
