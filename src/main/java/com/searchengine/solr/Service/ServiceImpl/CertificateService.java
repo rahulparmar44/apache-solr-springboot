@@ -3,6 +3,7 @@ package com.searchengine.solr.Service.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.searchengine.solr.Model.Certificates.CountObj;
 import com.searchengine.solr.Model.Certification.Root;
 import com.searchengine.solr.Repository.CertificateRepository;
 import com.searchengine.solr.Service.ICertificateService;
@@ -40,14 +41,13 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-
-    public List<HashMap<String, String>> getAllCertificateCount()  {
+    public List<CountObj> getAllCertificateCount()  {
         ObjectMapper objectMapper = new ObjectMapper();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<String>(headers);
         HashMap<String,String> countMap = new HashMap<>();
-        ArrayList<HashMap<String,String>> finalResponse = new ArrayList<>();
+        ArrayList<CountObj> finalResponse = new ArrayList<>();
         String url = "http://localhost:8983/solr/certifications/select?fl=count,id&indent=true&q.op=OR&q=id:*/certifiedHashersSummary"+"?"+"&rows=1000&useParams=";
         ResponseEntity<String> response = restTemplate.exchange(url,
                 HttpMethod.GET, new HttpEntity<String>(headers), String.class);
@@ -71,10 +71,10 @@ public class CertificateService implements ICertificateService {
             }
             ArrayList<HashMap<String,ArrayList<String>>> names =  objectMapper.convertValue(jsonNode1, ArrayList.class);
             String count =  objectMapper.convertValue(c.get("count"),ArrayList.class).get(0).toString();
-            HashMap<String,String> obj = new HashMap<>();
-            obj.put("name",names.get(0).get("name").toString());
-            obj.put("count",count);
-            finalResponse.add(obj);
+            CountObj countObj = new CountObj();
+            countObj.setName(names.get(0).get("name").get(0));
+            countObj.setCount(Integer.parseInt(count));
+            finalResponse.add(countObj);
         }
         return finalResponse;
     }

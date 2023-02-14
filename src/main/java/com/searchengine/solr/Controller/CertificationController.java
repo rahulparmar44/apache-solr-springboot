@@ -2,6 +2,7 @@ package com.searchengine.solr.Controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.searchengine.solr.Model.Certificates.CountObj;
 import com.searchengine.solr.Model.Certification.Root;
 import com.searchengine.solr.Service.ServiceImpl.CertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,9 @@ public class CertificationController {
     ResponseEntity<String> getCertifiedHasher(@RequestParam String name) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Root> roots = certificateService.getCertificatesByName(name);
-        String rootId = "c6961fca-88bb-4246-934a-0c06c7c34ab9";
-//        for(Root root : roots)
-//            rootId = root.getId();
+        String rootId = "";
+        for(Root root : roots)
+            rootId = root.get_root_();
 
         System.out.println("rootId ::::" + rootId);
         HttpHeaders headers = new HttpHeaders();
@@ -61,7 +62,7 @@ public class CertificationController {
     }
 
     @GetMapping("/get-count")
-    public ResponseEntity<List<HashMap<String,String>>> getAllCertificateCount(){
+    public ResponseEntity<List<CountObj>> getAllCertificateCount(){
         return new ResponseEntity<>(certificateService.getAllCertificateCount(),HttpStatus.OK) ;
     }
 
