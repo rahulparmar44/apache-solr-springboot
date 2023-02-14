@@ -6,6 +6,7 @@ import com.searchengine.solr.Model.Certification.Root;
 import com.searchengine.solr.Service.ServiceImpl.CertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,13 +34,13 @@ public class CertificationController {
         return rootList;
     }
 
-    @RequestMapping("get-hashers-count")
+    @RequestMapping("/get-hashers-count")
     ResponseEntity<String> getCertifiedHasher(@RequestParam String name) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Root> roots = certificateService.getCertificatesByName(name);
-        String rootId = "";
-        for(Root root : roots)
-            rootId = root.get_root_();
+        String rootId = "c6961fca-88bb-4246-934a-0c06c7c34ab9";
+//        for(Root root : roots)
+//            rootId = root.getId();
 
         System.out.println("rootId ::::" + rootId);
         HttpHeaders headers = new HttpHeaders();
@@ -57,6 +58,11 @@ public class CertificationController {
         Integer count = arrayList.stream().filter(e -> !e.isEmpty()).filter(e -> e.containsKey("count")).collect(Collectors.toList()).get(0).get("count").get(0);
         String out = "Number of certified hashers : "+ count.toString();
         return  new ResponseEntity<String>(out,HttpStatus.OK);
+    }
+
+    @GetMapping("/get-count")
+    public ResponseEntity<List<HashMap<String,String>>> getAllCertificateCount(){
+        return new ResponseEntity<>(certificateService.getAllCertificateCount(),HttpStatus.OK) ;
     }
 
 }
