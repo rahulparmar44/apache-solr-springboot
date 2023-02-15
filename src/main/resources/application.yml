@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:2023/javatest
+    url: jdbc:postgresql://localhost:2023/hashedindna
     username: postgres
-    password: password
+    password: Password
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -17,7 +17,7 @@ spring:
         format_sql: true
   data:
     solr:
-      host: http://localhost:8983/solr
+      host: http://localhost:8984/solr
       repositories:
         base-package: com.searchengine.solr
     jpa:

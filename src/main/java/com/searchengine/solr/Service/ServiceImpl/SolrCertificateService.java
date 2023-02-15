@@ -1,28 +1,19 @@
 package com.searchengine.solr.Service.ServiceImpl;
 
 import com.searchengine.solr.Model.Certification.Root;
-import com.searchengine.solr.Repository.CertificateRepository;
+import com.searchengine.solr.Repository.SolrCertificateRepository;
 import com.searchengine.solr.Service.ICertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 @Service
-public class CertificateService implements ICertificateService {
+public class SolrCertificateService implements ICertificateService {
 
     @Autowired
-    CertificateRepository certificateRepository;
+    SolrCertificateRepository solrCertificateRepository;
 
 
 
@@ -31,7 +22,7 @@ public class CertificateService implements ICertificateService {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        List<Root> rootList = certificateRepository.findByName(name);
+        List<Root> rootList = solrCertificateRepository.findByName(name);
         return rootList;
     }
 

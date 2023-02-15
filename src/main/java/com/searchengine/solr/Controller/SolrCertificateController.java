@@ -1,8 +1,7 @@
 package com.searchengine.solr.Controller;
 
-import com.searchengine.solr.Model.Certificates.Certificate;
 import com.searchengine.solr.Model.Certification.Root;
-import com.searchengine.solr.Service.ServiceImpl.CertificateService;
+import com.searchengine.solr.Service.ServiceImpl.SolrCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,14 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/dna/certificates")
-public class CertificateController {
+public class SolrCertificateController {
 
     @Autowired
-    CertificateService certificateService;
+    SolrCertificateService solrCertificateService;
 
     @RequestMapping("get-certificates-by-name")
     List<Root> getCertificatesByName(@RequestParam String name) throws IOException {
-        return  certificateService.getCertificatesByName(name);
+        return  solrCertificateService.getCertificatesByName(name);
     }
 
 

@@ -3,7 +3,7 @@ package com.searchengine.solr.Controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.searchengine.solr.Model.Certification.Root;
-import com.searchengine.solr.Service.ServiceImpl.CertificateService;
+import com.searchengine.solr.Service.ServiceImpl.SolrCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,31 +12,29 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dna/certifications")
-public class CertificationController {
+public class SolrCertificationController {
 
     @Autowired
-    CertificateService certificateService;
+    SolrCertificateService solrCertificateService;
 
     @Autowired
     RestTemplate restTemplate;
 
     @RequestMapping("get-certificates-by-name")
     List<Root> getCertificatesByName(@RequestParam String name)  {
-        List<Root>  rootList = certificateService.getCertificatesByName(name);
+        List<Root>  rootList = solrCertificateService.getCertificatesByName(name);
         return rootList;
     }
 
     @RequestMapping("get-hashers-count")
     ResponseEntity<String> getCertifiedHasher(@RequestParam String name) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Root> roots = certificateService.getCertificatesByName(name);
+        List<Root> roots = solrCertificateService.getCertificatesByName(name);
         String rootId = "";
         for(Root root : roots)
             rootId = root.get_root_();
