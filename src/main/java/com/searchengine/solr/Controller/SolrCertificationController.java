@@ -3,9 +3,11 @@ package com.searchengine.solr.Controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.searchengine.solr.Model.Certification.Root;
+import com.searchengine.solr.Model.CountObj;
 import com.searchengine.solr.Service.ServiceImpl.SolrCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,6 +57,11 @@ public class SolrCertificationController {
         Integer count = arrayList.stream().filter(e -> !e.isEmpty()).filter(e -> e.containsKey("count")).collect(Collectors.toList()).get(0).get("count").get(0);
         String out = "Number of certified hashers : "+ count.toString();
         return  new ResponseEntity<String>(out,HttpStatus.OK);
+    }
+
+    @GetMapping("/get-count")
+    public ResponseEntity<List<CountObj>> getAllCertificateCount(){
+        return new ResponseEntity<>(solrCertificateService.getAllCertificateCount(),HttpStatus.OK) ;
     }
 
 }

@@ -29,3 +29,8 @@ logging:
     root: INFO
     org.springframework.web: INFO
     com.example: DEBUG
+
+constants:
+  solr:
+    url: http://localhost:8983/api/
+    export_file_name : output.json

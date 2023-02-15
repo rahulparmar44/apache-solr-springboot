@@ -21,6 +21,4 @@ public class SolrCertificateController {
     List<Root> getCertificatesByName(@RequestParam String name) throws IOException {
         return  solrCertificateService.getCertificatesByName(name);
     }
-
-
 }

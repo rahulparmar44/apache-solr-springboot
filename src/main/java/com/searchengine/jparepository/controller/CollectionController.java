@@ -6,6 +6,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 class CollectionController {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+    @Value("${constants.solr.url}")
+    public static String SOLR_URL;
+
+
     private final OkHttpClient client = new OkHttpClient();
 
     @PostMapping("/collections")
@@ -30,7 +36,7 @@ class CollectionController {
         );
 
         Request request = new Request.Builder()
-                .url("http://localhost:8983/api/collections")
+                .url(SOLR_URL + "collections")
                 .post(body)
                 .addHeader("Content-Type", "application/json")
                 .build();

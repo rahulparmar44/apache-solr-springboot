@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.searchengine.jparepository.model.Certification;
 import com.searchengine.jparepository.repository.CertificateRepository;
 import com.searchengine.jparepository.service.ExportService;
+import com.searchengine.jparepository.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,26 +23,16 @@ import java.util.List;
 @RequestMapping("/api/export")
 public class ExportController {
 
+    @Value("${constants.solr.export_file_name}")
+    public static  String EXPORT_FILE_NAME;
     @Autowired
     private CertificateRepository certificateRepository;
 
-//    @GetMapping("/certificates")
-//    public ResponseEntity<String> exportCertificates1() {
-//        List<Certification> certificates = certificateRepository.findAll();
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String json;
-//        try {
-//            json = objectMapper.writeValueAsString(certificates).replaceAll("^id$", "Id");
-//        } catch (JsonProcessingException e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//
-//        return new ResponseEntity<>(json, HttpStatus.OK);
-//    }
-
     @Autowired
     private ExportService exportService;
+
+    @Autowired
+    private JsonUtil jsonUtil;
 
     @GetMapping("/certificates")
     public ResponseEntity<Boolean> exportCertificates() {
@@ -49,16 +41,13 @@ public class ExportController {
         ObjectMapper objectMapper = new ObjectMapper();
         String json;
         try {
-            json = objectMapper.writeValueAsString(certificates).replaceAll("^id$", "Id");
+            json = jsonUtil.generateJson(certificates);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         boolean saved = false;
         try {
-            File file = new File("output.json");
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(json);
-            fileWriter.close();
+            File file = jsonUtil.generateFileFromJson(EXPORT_FILE_NAME, json);
             saved = exportService.sendFileToSolr(file);
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
