@@ -2,6 +2,7 @@ package com.searchengine.jparepository.service;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Slf4j
 public class ExportService {
 
+    public static String SOLR_URL = "http://localhost:8984";
 
     public boolean sendFileToSolr(File file) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -23,7 +25,7 @@ public class ExportService {
                 .build();
 
         Request request = new Request.Builder()
-                .url("http://localhost:8983/solr/certification/update?commitWithin=100&overwrite=false&wt=json")
+                .url(SOLR_URL+"/solr/certification/update?commitWithin=100&overwrite=false&wt=json")
                 .method("POST", body)
                 .build();
 

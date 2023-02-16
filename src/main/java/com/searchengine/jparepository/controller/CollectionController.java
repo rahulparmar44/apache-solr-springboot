@@ -36,7 +36,7 @@ class CollectionController {
         );
 
         Request request = new Request.Builder()
-                .url(SOLR_URL + "collections")
+                .url(SOLR_URL + "/api/collections")
                 .post(body)
                 .addHeader("Content-Type", "application/json")
                 .build();

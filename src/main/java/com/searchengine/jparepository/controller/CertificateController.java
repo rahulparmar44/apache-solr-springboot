@@ -39,7 +39,7 @@ public class CertificateController {
         certification = certificateService.saveCertificate(certification);
 
         try {
-            String json = jsonUtil.generateJson(certification);
+            String json = jsonUtil.generateJson(List.of(certification));
             File file = jsonUtil.generateFileFromJson("op.json", json);
             exportService.sendFileToSolr(file);
         } catch (JsonProcessingException e){

@@ -8,6 +8,7 @@ import com.searchengine.jparepository.service.ExportService;
 import com.searchengine.jparepository.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,6 @@ import java.util.List;
 @RequestMapping("/api/export")
 public class ExportController {
 
-    @Value("${constants.solr.export_file_name}")
-    public static  String EXPORT_FILE_NAME;
     @Autowired
     private CertificateRepository certificateRepository;
 
@@ -37,8 +36,6 @@ public class ExportController {
     @GetMapping("/certificates")
     public ResponseEntity<Boolean> exportCertificates() {
         List<Certification> certificates = certificateRepository.findAll();
-
-        ObjectMapper objectMapper = new ObjectMapper();
         String json;
         try {
             json = jsonUtil.generateJson(certificates);
@@ -47,7 +44,7 @@ public class ExportController {
         }
         boolean saved = false;
         try {
-            File file = jsonUtil.generateFileFromJson(EXPORT_FILE_NAME, json);
+            File file = jsonUtil.generateFileFromJson("output.json", json);
             saved = exportService.sendFileToSolr(file);
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

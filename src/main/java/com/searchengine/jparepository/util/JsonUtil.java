@@ -20,7 +20,7 @@ public class JsonUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         String json;
         try {
-            json = objectMapper.writeValueAsString(certificates).replaceAll("\"id\"", "Id");
+            json = objectMapper.writeValueAsString(certificates).replaceAll("\"id\"", "\"Id\"");
         } catch (JsonProcessingException e) {
             log.error("Json Processing Exception Occurred");
             throw e;
