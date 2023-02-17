@@ -29,8 +29,7 @@ public class SolrCertificationController {
 
     @RequestMapping("get-certificates-by-name")
     List<Root> getCertificatesByName(@RequestParam String name)  {
-        List<Root>  rootList = solrCertificateService.getCertificatesByName(name);
-        return rootList;
+        return solrCertificateService.getCertificatesByName(name);
     }
 
     @RequestMapping("get-hashers-count")
@@ -38,13 +37,16 @@ public class SolrCertificationController {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Root> roots = solrCertificateService.getCertificatesByName(name);
         String rootId = "";
-        for(Root root : roots)
+        for(Root root : roots) {
             rootId = root.get_root_();
+            if (rootId != null && !rootId.equals(""))
+                break;  // break out of the loop after the first element is found
+        }
 
         System.out.println("rootId ::::" + rootId);
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>(headers);
         String url = "http://localhost:8984/solr/certifications/select?q=id:"+rootId+"*&fl=count&rows=500";
         ResponseEntity<String> response = restTemplate.exchange(url,
                 HttpMethod.GET, new HttpEntity<String>(headers), String.class);
@@ -54,9 +56,14 @@ public class SolrCertificationController {
         JsonNode jsonNode = objectMapper.readTree(response.getBody()).get("response").get("docs");
 
         ArrayList<HashMap<String,List<Integer>>> arrayList = objectMapper.convertValue(jsonNode, ArrayList.class);
-        Integer count = arrayList.stream().filter(e -> !e.isEmpty()).filter(e -> e.containsKey("count")).collect(Collectors.toList()).get(0).get("count").get(0);
+
+        Integer count = 0;
+        if (!arrayList.isEmpty() && !arrayList.get(0).isEmpty() && arrayList.get(0).containsKey("count")) {
+            count = arrayList.get(0).get("count").get(0);
+        }
+
         String out = "Number of certified hashers : "+ count.toString();
-        return  new ResponseEntity<String>(out,HttpStatus.OK);
+        return new ResponseEntity<>(out, HttpStatus.OK);
     }
 
     @GetMapping("/get-count")
