@@ -9,8 +9,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.List;
 
-public interface ICertificateService {
-    List<Root> getCertificatesByName(String name) throws IOException;
+public interface SolrCertificateService {
+    List<Root> getCertificatesByName(String name) ;
     public String getCertifiedHashersCount(String name) throws IOException;
 
     List<CountObj> getAllCertificateCount();
