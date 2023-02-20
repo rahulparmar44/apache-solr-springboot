@@ -69,9 +69,11 @@ public class SolrCertificateService implements ICertificateService {
             ArrayList<HashMap<String, ArrayList<String>>> names = objectMapper.convertValue(jsonNode1, ArrayList.class);
             String count = objectMapper.convertValue(c.get("count"), ArrayList.class).get(0).toString();
             CountObj countObj = new CountObj();
-            countObj.setName(names.get(0).get("name").get(0));
-            countObj.setCount(Integer.parseInt(count));
-            finalResponse.add(countObj);
+            if(names.size()!=0) {
+                countObj.setName(names.get(0).get("name").get(0));
+                countObj.setCount(Integer.parseInt(count));
+                finalResponse.add(countObj);
+            }
         }
         Collections.sort(finalResponse, new Comparator<CountObj>() {
             @Override
