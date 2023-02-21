@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:2023/hashedindna
+    url: jdbc:postgresql://localhost:2023/postgres
     username: postgres
-    password: Password
+    password: password
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
