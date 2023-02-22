@@ -98,7 +98,8 @@ public class SolrCertificateServiceImpl implements SolrCertificateService {
                 e.printStackTrace();
             }
             ArrayList<HashMap<String, ArrayList<String>>> names = objectMapper.convertValue(jsonNode1, ArrayList.class);
-            String count = objectMapper.convertValue(c.get("count"), ArrayList.class).get(0).toString();
+           // String count = objectMapper.convertValue(c.get("count"), ArrayList.class).get(0).toString();
+            String count = c.get("count").toString();
             CountObj countObj = new CountObj();
             if(names.size()!=0) {
                 countObj.setName(names.get(0).get("name").get(0));
