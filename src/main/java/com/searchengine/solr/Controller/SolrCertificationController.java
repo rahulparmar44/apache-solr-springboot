@@ -29,8 +29,7 @@ public class SolrCertificationController {
 
     @RequestMapping("get-certificates-by-name")
     List<Root> getCertificatesByName(@RequestParam String name)  {
-        List<Root>  rootList = solrCertificateService.getCertificatesByName(name);
-        return rootList;
+        return solrCertificateService.getCertificatesByName(name);
     }
 
     @RequestMapping("get-hashers-count")
