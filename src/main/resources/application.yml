@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:2023/postgres
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: false
+        format_sql: true
+  data:
+    solr:
+      host: http://localhost:8984/solr
+      repositories:
+        base-package: com.searchengine.solr
+    jpa:
+      repositories:
+        base-package: com.searchengine.jparepository
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    com.example: DEBUG
+
+constants:
+  solr:
+    url: http://localhost:8984
+    export_file_name : output.json
