@@ -1,29 +1,16 @@
 package com.hashedin.broadcast.searchengine.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestClientException;
 
+import java.util.Objects;
+
+
+@Data
+@AllArgsConstructor
 public class SolrException extends RuntimeException{
-
     String message;
     HttpStatus httpStatus;
-
-    public SolrException( String message,HttpStatus httpStatus) {
-        super();
-        this.httpStatus = httpStatus;
-        this.message =  message;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
 }

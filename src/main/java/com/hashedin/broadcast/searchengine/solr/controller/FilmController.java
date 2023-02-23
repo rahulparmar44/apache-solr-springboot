@@ -1,7 +1,8 @@
 package com.hashedin.broadcast.searchengine.solr.controller;
 
 
-import com.hashedin.broadcast.searchengine.solr.service.serviceimpl.SolrService;
+import com.hashedin.broadcast.searchengine.solr.service.SolrService;
+import com.hashedin.broadcast.searchengine.solr.service.serviceimpl.SolrServiceImpl;
 import com.hashedin.broadcast.searchengine.solr.model.Film;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequestMapping("/films")
 public class FilmController {
     @Autowired
-    SolrService solrService;
+    SolrServiceImpl solrService;
 
     @PostMapping("/save")
     public Film saveFilm(@RequestBody Film film) {

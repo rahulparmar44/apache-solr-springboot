@@ -1,5 +1,6 @@
 package com.hashedin.broadcast.searchengine.solr.controller;
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.hashedin.broadcast.searchengine.solr.model.certification.Certificate;
 import com.hashedin.broadcast.searchengine.solr.model.CountObj;
 import com.hashedin.broadcast.searchengine.solr.service.SolrCertificateService;
@@ -36,8 +37,8 @@ public class CertificationController {
     }
 
     @GetMapping("/get-count")
-    public ResponseEntity<List<CountObj>> getAllCertificateCount(){
-        return new ResponseEntity<>(solrCertificateService.getAllCertificateCount(),HttpStatus.OK) ;
+    public ResponseEntity<List<CountObj>> getAllCertificateCount() throws JacksonException {
+        return new ResponseEntity<>(solrCertificateService.getAllCertificateCount(), HttpStatus.OK) ;
     }
 
 }

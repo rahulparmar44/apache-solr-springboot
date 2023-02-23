@@ -2,10 +2,11 @@ package com.hashedin.broadcast.searchengine.solr.service;
 
 
 import com.hashedin.broadcast.searchengine.solr.model.Film;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ISolrService {
+public interface SolrService {
 
     List<Film> getFilmsByName(String category);
 

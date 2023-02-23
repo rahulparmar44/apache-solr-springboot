@@ -3,7 +3,9 @@ package com.hashedin.broadcast.searchengine.sql.service;
 import com.hashedin.broadcast.searchengine.sql.model.Capability;
 import com.hashedin.broadcast.searchengine.sql.model.CertificateChampion;
 import com.hashedin.broadcast.searchengine.sql.model.Certification;
+import com.hashedin.broadcast.searchengine.sql.model.CertifiedHashersSummary;
 import com.hashedin.broadcast.searchengine.sql.repository.CertificateRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CertificateService {
 
     @Autowired
@@ -30,24 +33,35 @@ public class CertificateService {
 
     public Certification saveCertificate(Certification certification) {
         certification.setOfferedBy(certificationProviderService.save(certification.getOfferedBy()));
+
         List<CertificateChampion> champions = new ArrayList<>();
-        for (CertificateChampion c :certification.getCertificateChampions()){
-            champions.add(certificateChampionService.saveCertificateChampion(c));
-        }
+        certification.getCertificateChampions()
+                .forEach(
+                        certificateChampion ->
+                                champions.add(certificateChampionService.saveCertificateChampion(certificateChampion))
+                );
+
         certification.setCertificateChampions(champions);
-        certifiedHashersSummaryService.saveCertifiedHashersSummary(certification.getCertifiedHashersSummary());
+
+
+        CertifiedHashersSummary certifiedHashersSummary = certifiedHashersSummaryService
+                .saveCertifiedHashersSummary(certification.getCertifiedHashersSummary());
+
+        certification.setCertifiedHashersSummary(certifiedHashersSummary);
+
         List<Capability> capabilities = new ArrayList<>();
-        for (Capability c : certification.getCapability()){
-            capabilities.add(capabilityService.saveCapability(c));
-        }
+        certification.getCapability().forEach(
+                capability -> capabilities.add(capabilityService.saveCapability(capability))
+        );
+
         certification.setCapability(capabilities);
+
         return certificateRepository.save(certification);
     }
 
     public List<Certification> getCertificate() {
 
-        List<Certification> l = certificateRepository.findAll();
-        return l;
+        return certificateRepository.findAll();
     }
 
 

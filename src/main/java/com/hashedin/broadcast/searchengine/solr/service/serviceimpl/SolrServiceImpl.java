@@ -2,7 +2,6 @@ package com.hashedin.broadcast.searchengine.solr.service.serviceimpl;
 
 import com.hashedin.broadcast.searchengine.solr.model.Film;
 import com.hashedin.broadcast.searchengine.solr.repository.FilmRepository;
-import com.hashedin.broadcast.searchengine.solr.service.ISolrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@Service("SolrService")
-public class SolrService implements ISolrService {
+@Service
+public class SolrServiceImpl implements com.hashedin.broadcast.searchengine.solr.service.SolrService {
 
     @Autowired
     FilmRepository filmRepository;
@@ -23,7 +22,7 @@ public class SolrService implements ISolrService {
 
     @Override
     public List<Film> getFilmsByIdOrName(String name) {
-        return (List<Film>) filmRepository.findByCustomQuery(name, Pageable.ofSize(10));
+        return filmRepository.findByCustomQuery(name, Pageable.ofSize(10));
     }
 
     public List<Film> getFilmsByName(String name) {

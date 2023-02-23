@@ -20,10 +20,10 @@ public class CertifiedHashersSummaryService {
 
     public CertifiedHashersSummary saveCertifiedHashersSummary(CertifiedHashersSummary certifiedHashersSummary){
         List<Hasher> hashers = new ArrayList<>();
-        for (Hasher h : certifiedHashersSummary.getHashersCertified()){
-            hashers.add(hasherService.saveHasher(h));
-        }
+
+        certifiedHashersSummary.getHashersCertified().forEach(hasher -> hashers.add(hasherService.saveHasher(hasher)));
         certifiedHashersSummary.setHashersCertified(hashers);
+
         return certifiedHashersSummaryRepository.save(certifiedHashersSummary);
     }
 }

@@ -16,9 +16,7 @@ public interface FilmRepository extends SolrCrudRepository<Film, String> {
     Film save(Film film);
 
     @Query("id:*?0* OR name:*?0* OR directed_by:*?0*")
-    public List<Film> findByCustomQuery(String searchTerm, Pageable pageable);
-
-
+    List<Film> findByCustomQuery(String searchTerm, Pageable pageable);
 }
 
 
