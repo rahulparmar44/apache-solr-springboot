@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> restClientExceptionHandler(RestClientException ex, WebRequest request) {
 
         String msg = "Something went wrong";
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), msg, request.getDescription(false));
         ;
         if (Objects.requireNonNull(ex.getMessage()).contains("Connection refused")) {
             msg = "Solr port not found, please provide correct solr port";
