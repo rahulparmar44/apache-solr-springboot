@@ -1,4 +1,4 @@
-package com.hashedin.broadcast.searchengine.solr.exception;
+package com.hashedin.broadcast.searchengine.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

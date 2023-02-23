@@ -1,4 +1,4 @@
-package com.hashedin.broadcast.searchengine.solr.exception;
+package com.hashedin.broadcast.searchengine.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

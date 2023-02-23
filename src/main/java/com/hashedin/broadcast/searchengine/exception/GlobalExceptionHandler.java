@@ -1,4 +1,4 @@
-package com.hashedin.broadcast.searchengine.solr.exception;
+package com.hashedin.broadcast.searchengine.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +22,12 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(SolrException.class)
+    public ResponseEntity<?> solrExceptionHandler(SolrException ex, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, ex.getHttpStatus());
+    }
+
 
 }
