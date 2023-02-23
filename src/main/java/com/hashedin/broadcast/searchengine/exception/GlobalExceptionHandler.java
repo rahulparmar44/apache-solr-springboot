@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-        if(ex.getMessage().contains("Could not connect to ZooKeeper"))
+        if (ex.getMessage().contains("Could not connect to ZooKeeper"))
             errorDetails.setMessage("Zookeeper port not found, please provide correct zookeeper port");
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -38,21 +38,23 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RestClientException.class)
-    public ErrorDetails restClientExceptionHandler(RestClientException ex, WebRequest request) {
+    public ResponseEntity<?> restClientExceptionHandler(RestClientException ex, WebRequest request) {
 
         String msg = "Something went wrong";
-        if(Objects.requireNonNull(ex.getMessage()).contains("Connection refused")) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        ;
+        if (Objects.requireNonNull(ex.getMessage()).contains("Connection refused")) {
             msg = "Solr port not found, please provide correct solr port";
-            return new ErrorDetails(new Date(), msg, request.getDescription(false));
+            errorDetails = new ErrorDetails(new Date(), msg, request.getDescription(false));
 
         }
-        return new ErrorDetails(new Date(), msg, request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(JacksonException.class)
-    public ErrorDetails jsonParseExceptionHandler(JacksonException ex, WebRequest request) {
-        return new ErrorDetails(new Date(), "Json parsing error", request.getDescription(false));
+    public ResponseEntity<?> jsonParseExceptionHandler(JacksonException ex, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "Json parsing error", request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }
