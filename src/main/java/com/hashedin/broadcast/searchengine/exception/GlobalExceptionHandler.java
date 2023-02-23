@@ -1,6 +1,7 @@
 package com.hashedin.broadcast.searchengine.exception;
 
 import com.fasterxml.jackson.core.JacksonException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -27,6 +29,7 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         if (ex.getMessage().contains("Could not connect to ZooKeeper"))
             errorDetails.setMessage("Zookeeper port not found, please provide correct zookeeper port");
+        log.info(errorDetails.getMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -41,8 +44,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> restClientExceptionHandler(RestClientException ex, WebRequest request) {
 
         String msg = "Something went wrong";
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-        ;
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), msg, request.getDescription(false));
+
         if (Objects.requireNonNull(ex.getMessage()).contains("Connection refused")) {
             msg = "Solr port not found, please provide correct solr port";
             errorDetails = new ErrorDetails(new Date(), msg, request.getDescription(false));

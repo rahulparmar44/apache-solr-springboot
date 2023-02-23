@@ -27,10 +27,8 @@ public class JsonUtil {
 
     public File generateFileFromJson(String filename, String json) throws IOException {
         File file = new File(filename);
-        try {
-            FileWriter fileWriter = new FileWriter(file);
+        try (FileWriter fileWriter = new FileWriter(file)){
             fileWriter.write(json);
-            fileWriter.close();
         } catch (IOException e) {
             log.error("IO Exception Occurred");
             throw e;

@@ -38,7 +38,7 @@ public class CertificationController {
 
     @GetMapping("/get-count")
     public ResponseEntity<List<CountObj>> getAllCertificateCount() throws JacksonException {
-        return new ResponseEntity<>(solrCertificateService.getAllCertificateCount(), HttpStatus.OK) ;
+        return new ResponseEntity<>(solrCertificateService.getAllCertificateCount(), HttpStatus.OK);
     }
 
 }
