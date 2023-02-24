@@ -1,0 +1,31 @@
+networks:
+  net:
+
+services:
+  spring-boot-app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - solr
+    networks:
+      - net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+    restart: on-failure
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5431:5432"
+    networks:
+      - net
+  solr:
+    image: solr
+    ports:
+      - "8984:8984"
+    networks:
+      - net

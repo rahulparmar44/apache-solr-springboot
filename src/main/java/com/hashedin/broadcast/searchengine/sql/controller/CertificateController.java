@@ -57,4 +57,9 @@ public class CertificateController {
     ResponseEntity<List<Certification>> getAllCertificates(){
         return  ResponseEntity.status(HttpStatus.CREATED).body(certificateService.getCertificate());
     }
+
+    @GetMapping("/test")
+    ResponseEntity<String> test(){
+        return ResponseEntity.ok().body("success");
+    }
 }
